@@ -3,7 +3,8 @@ const sequelize = require("../db.js")
 
 const User = sequelize.define("user", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, allowNull: false},
+    name: {type: DataTypes.STRING, allowNull: true},
+    phone: {type: DataTypes.INTEGER, allowNull: false},
     role: {type: DataTypes.STRING, allowNull: false, defaultValue: "USER"}
 })
 
@@ -28,14 +29,14 @@ const Order = sequelize.define("order", {
     mail: {type: DataTypes.STRING, allowNull: false},
     name: {type: DataTypes.STRING, allowNull: false},
     adress: {type: DataTypes.STRING, allowNull: false},
-    phone: {type: DataTypes.STRING, allowNull: false},
+    phone: {type: DataTypes.INTEGER, allowNull: false},
     delivery: {type: DataTypes.STRING, allowNull: false},
     pay: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Product = sequelize.define("product", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    img: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false} ,
+    img: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false},
     name: {type: DataTypes.STRING, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
     discount: {type: DataTypes.INTEGER, allowNull: true, defaultValue: 0},
@@ -87,6 +88,9 @@ Product.belongsTo(Category)
 
 Product.hasMany(Rating)
 Rating.belongsTo(Product)
+
+Order.hasMany(Product)
+Product.belongsTo(Order)
 
 module.exports = {
     User,
