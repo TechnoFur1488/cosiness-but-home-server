@@ -29,14 +29,14 @@ const Order = sequelize.define("order", {
     mail: {type: DataTypes.STRING, allowNull: false},
     name: {type: DataTypes.STRING, allowNull: false},
     adress: {type: DataTypes.STRING, allowNull: false},
-    phone: {type: DataTypes.INTEGER, allowNull: false},
+    // phone: {type: DataTypes.INTEGER, allowNull: false},
     delivery: {type: DataTypes.STRING, allowNull: false},
     pay: {type: DataTypes.STRING, allowNull: false}
 })
 
 const Product = sequelize.define("product", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    img: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false},
+    img: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false, defaultValue: []},
     name: {type: DataTypes.STRING, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false, defaultValue: 0},
     discount: {type: DataTypes.INTEGER, allowNull: true, defaultValue: 0},
@@ -44,7 +44,7 @@ const Product = sequelize.define("product", {
     warp: {type: DataTypes.STRING, allowNull: false},
     hight: {type: DataTypes.STRING, allowNull: false},
     hardness: {type: DataTypes.STRING, allowNull: false},
-    size: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false},
+    size: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: false, defaultValue: []},
     decription: {type: DataTypes.TEXT, allowNull: true}
 })
 
@@ -55,8 +55,9 @@ const Rating = sequelize.define("rating", {
     img: {type: DataTypes.ARRAY(DataTypes.STRING), allowNull: true}
 })
 
-const Category = sequelize.define("catalog", {
+const Catalog = sequelize.define("catalog", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, allowNull: false, unique: true}
 })
 
 User.hasOne(Cart)
@@ -83,8 +84,8 @@ CartProduct.belongsTo(Cart)
 Product.hasOne(CartProduct)
 CartProduct.belongsTo(Product)
 
-Category.hasMany(Product)
-Product.belongsTo(Category)
+Catalog.hasMany(Product)
+Product.belongsTo(Catalog)
 
 Product.hasMany(Rating)
 Rating.belongsTo(Product)
@@ -101,5 +102,5 @@ module.exports = {
     ForeverProduct,
     Product,
     Rating,
-    Category
+    Catalog
 }
